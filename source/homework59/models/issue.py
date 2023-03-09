@@ -54,6 +54,11 @@ class Issue(models.Model):
         verbose_name='Дата и время обновления',
         auto_now=True
     )
+    is_deleted = models.BooleanField(default=False)
+
+    def delete(self, using=None, keep_parents=False):
+        self.is_deleted = True
+        self.save()
 
     def __str__(self):
         return f'{self.summary}, {self.status}, {self.type}'

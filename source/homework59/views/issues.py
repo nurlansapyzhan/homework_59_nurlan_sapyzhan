@@ -1,71 +1,48 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import TemplateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 
 from homework59.forms import IssueForm
 from homework59.models import Issue
 
 
-class IssueDetail(TemplateView):
+class IssueDetail(DetailView):
     template_name = 'issue.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['issue'] = get_object_or_404(Issue, pk=kwargs['pk'])
-        return context
+    model = Issue
 
 
-class IssueUpdateView(TemplateView):
+class IssueUpdateView(UpdateView):
     template_name = 'issue_update.html'
+    form_class = IssueForm
+    model = Issue
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['issue'] = get_object_or_404(Issue, pk=kwargs['pk'])
-        context['form'] = IssueForm(instance=context['issue'])
-        return context
-
-    def post(self, request, *args, **kwargs):
-        issue = get_object_or_404(Issue, pk=kwargs['pk'])
-        form = IssueForm(request.POST, instance=issue)
-        if form.is_valid():
-            form.save()
-            return redirect('issue_detail', issue.pk)
-        return render(request, 'issue_update.html', context={'form': form, 'issue': issue})
+    def get_success_url(self):
+        return reverse('issue_detail', kwargs={'pk': self.object.pk})
 
 
-class IssueCreateView(TemplateView):
+class IssueCreateView(CreateView):
     template_name = 'issue_create.html'
+    model = Issue
+    form_class = IssueForm
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = IssueForm()
-        return context
-
-    def post(self, request, *args, **kwargs):
-        form = IssueForm(request.POST)
-        if form.is_valid():
-            issue = form.save()
-            if request.POST.get('type'):
-                for i in request.POST.get('type'):
-                    issue.type.add(i)
-                    issue.save()
-                    return redirect('index')
-            else:
-                issue.save()
-                return redirect('index')
-        else:
-            return render(request, 'issue_create.html', context={'form': form})
+    def get_success_url(self):
+        return reverse('issue_detail', kwargs={'pk': self.object.pk})
 
 
-class IssueDeleteView(TemplateView):
+class IssueDeleteView(DeleteView):
     template_name = 'issue_delete.html'
+    model = Issue
+    context_object_name = 'issue'
+    success_url = reverse_lazy('index')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['issue'] = get_object_or_404(Issue, pk=kwargs['pk'])
-        return context
-
-    def post(self, request, *args, **kwargs):
-        issue = get_object_or_404(Issue, pk=kwargs['pk'])
-        issue.type.clear()
-        issue.delete()
-        return redirect('index')
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['issue'] = get_object_or_404(Issue, pk=kwargs['pk'])
+    #     return context
+    #
+    # #
+    # def post(self, request, *args, **kwargs):
+    #     issue = get_object_or_404(Issue, pk=kwargs['pk'])
+    #     issue.type.clear()
+    #     issue.delete()
+    #     return redirect('index')
