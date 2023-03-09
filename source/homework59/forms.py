@@ -1,5 +1,4 @@
 from django import forms
-from django.forms import SelectDateWidget
 
 from homework59.models import Issue, Type, Project
 
@@ -36,4 +35,16 @@ class ProjectForm(forms.ModelForm):
             'end_date': 'Дата окончания',
             'name': 'Название проекта',
             'description': 'Описание проекта'
+        }
+
+
+class IssueProjectForm(forms.ModelForm):
+    class Meta:
+        model = Issue
+        fields = ('summary', 'description', 'status', 'type')
+        labels = {
+            'summary': 'Краткое описание',
+            'description': 'Полное описание',
+            'status': 'Статус',
+            'type': 'Тип'
         }

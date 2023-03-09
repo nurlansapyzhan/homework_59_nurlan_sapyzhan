@@ -2,6 +2,14 @@
 {% block title %}
     Projects
 {% endblock %}
+{% block menu %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'issue_create' %}">Add new issue</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'project_create' %}">Create Project</a>
+    </li>
+{% endblock %}
 {% block content %}
     {% for project in projects %}
         <div class="card mt-2">
