@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}
+    Main page
+{% endblock %}
+{% block menu %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'issue_create' %}">Add new issue</a>
+    </li>
+{% endblock %}
+{% block content %}
+    {% include 'partial/search.html' %}
+    {% for issue in issues %}
+        <div class="card mt-2">
+            <div class="card-body">
+                <h5 class="card-title">{{ issue.summary }}</h5>
+                <p class="card-text">{{ issue.description }}</p>
+                <a href="{% url 'issue_detail' issue.pk %}" class="btn btn-secondary">More</a>
+            </div>
+        </div>
+    {% endfor %}
+    {% if is_paginated %}
+        {% include 'partial/pagination.html' %}
+    {% endif %}
+{% endblock %}

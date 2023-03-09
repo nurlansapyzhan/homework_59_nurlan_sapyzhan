@@ -1,6 +1,6 @@
 from django import forms
 
-from homework58.models import Issue, Type
+from homework59.models import Issue, Type
 
 
 class IssueForm(forms.ModelForm):
@@ -13,3 +13,7 @@ class IssueForm(forms.ModelForm):
             'status': 'Статус',
             'type': 'Тип'
         }
+
+
+class SearchForm(forms.Form):
+    search = forms.CharField(max_length=30, required=False, label='Search')

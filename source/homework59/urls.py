@@ -1,8 +1,8 @@
 from django.urls import path
 
-from homework58.views.base import IndexView, IndexRedirectView
+from homework59.views.base import IndexView, IndexRedirectView
 
-from homework58.views.issues import IssueDetail, IssueUpdateView, IssueCreateView, IssueDeleteView
+from homework59.views.issues import IssueDetail, IssueUpdateView, IssueCreateView, IssueDeleteView
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
