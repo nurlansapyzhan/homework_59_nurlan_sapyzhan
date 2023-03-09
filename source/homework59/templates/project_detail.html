@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}
+    Project
+{% endblock %}
+{% block content %}
+    <div class="card mt-2">
+        <div class="card-body">
+            <h5 class="card-title">{{ project.name }}</h5>
+            <p class="card-text">{{ project.description }}</p>
+        </div>
+    </div>
+    <div class="issues_block mt-2">
+        <h4>Project issues</h4>
+        {% for issue in issues %}
+            <div class="card mt-2">
+                <h5 class="card-header">Issue Details</h5>
+                <div class="card-body">
+                    <h5 class="card-title">{{ issue.summary }}</h5>
+                    <p class="card-text">Description: {{ issue.description }}</p>
+                    <p class="card-text">Status: {{ issue.status }}</p>
+                    <p class="card-text">Type: {% for type in issue.type.all %} {{ type }}; {% endfor %}</p>
+                    <a href="{% url 'issue_update' issue.pk %}" class="btn btn-secondary">Edit</a>
+                    <a href="{% url 'issue_delete' issue.pk %}" class="btn btn-secondary">Delete</a>
+                </div>
+            </div>
+            {% empty %}
+            <h5>No issues yet</h5>
+        {% endfor %}
+    </div>
+{% endblock %}

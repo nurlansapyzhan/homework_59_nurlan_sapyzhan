@@ -1,6 +1,7 @@
 from django import forms
+from django.forms import SelectDateWidget
 
-from homework59.models import Issue, Type
+from homework59.models import Issue, Type, Project
 
 
 class IssueForm(forms.ModelForm):
@@ -17,3 +18,22 @@ class IssueForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     search = forms.CharField(max_length=30, required=False, label='Search')
+
+
+class ProjectForm(forms.ModelForm):
+    start_date = forms.DateField(widget=forms.widgets.DateInput(
+        attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)', 'class': 'form-control'})
+    )
+    end_date = forms.DateField(widget=forms.widgets.DateInput(
+        attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)', 'class': 'form-control'})
+    )
+
+    class Meta:
+        model = Project
+        fields = ('name', 'description', 'start_date', 'end_date')
+        labels = {
+            'start_date': 'Дата начала',
+            'end_date': 'Дата окончания',
+            'name': 'Название проекта',
+            'description': 'Описание проекта'
+        }

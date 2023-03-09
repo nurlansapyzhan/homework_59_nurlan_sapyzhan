@@ -54,7 +54,14 @@ class Issue(models.Model):
         verbose_name='Дата и время обновления',
         auto_now=True
     )
-    is_deleted = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(
+        default=False
+    )
+    project = models.ForeignKey(
+        to='homework59.Project',
+        on_delete=models.PROTECT,
+        default=1
+    )
 
     def delete(self, using=None, keep_parents=False):
         self.is_deleted = True
