@@ -4,7 +4,7 @@ from django.views.generic import ListView, DetailView, CreateView
 
 from homework59.models import Project, Issue
 
-from homework59.forms import ProjectForm
+from homework59.forms import ProjectForm, IssueForm, IssueProjectForm
 
 
 class ProjectsView(ListView):
@@ -33,5 +33,21 @@ class ProjectCreate(CreateView):
         return reverse('project_detail', kwargs={'pk': self.object.pk})
 
 
-# class IssueProjectCreate(CreateView):
-#
+class IssueProjectCreate(CreateView):
+    template_name = 'issue_project_create.html'
+    model = Project
+    form_class = IssueProjectForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        project = self.get_object()
+        context['project'] = project
+        return context
+
+    def form_valid(self, form):
+        project = get_object_or_404(Project, pk=self.kwargs.get('pk'))
+        form.instance.project = project
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('issue_detail', kwargs={'pk': self.object.pk})

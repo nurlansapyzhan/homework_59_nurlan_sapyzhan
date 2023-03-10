@@ -22,6 +22,7 @@
     </div>
     <div class="issues_block mt-2">
         <h4>Project issues</h4>
+        <a href="{% url 'issue_project_create' project.pk %}" class="btn btn-secondary">Create new issue</a>
         {% for issue in issues %}
             <div class="card mt-2">
                 <h5 class="card-header">Issue Details</h5>

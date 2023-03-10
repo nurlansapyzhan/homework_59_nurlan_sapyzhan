@@ -1,0 +1,7 @@
+{% csrf_token %}
+{{ form.as_p }}
+<p>
+    <label for="project_id">Проект:</label>
+    <input type="text" name="project_id" value="{{ project_value }}" id="project_id">
+</p>
+<button type="submit" class="btn btn-secondary">{{ button_text }}</button>

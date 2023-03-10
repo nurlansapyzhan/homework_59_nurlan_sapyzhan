@@ -38,6 +38,19 @@ class ProjectForm(forms.ModelForm):
         }
 
 
+# class IssueProjectForm(forms.Form):
+#     class Meta:
+#         model = Issue
+#         fields = ('summary', 'description', 'status', 'type', 'project')
+#         labels = {
+#             'summary': 'Краткое описание',
+#             'description': 'Полное описание',
+#             'status': 'Статус',
+#             'type': 'Тип',
+#         }
+#         widgets = {
+#             'project': forms.TextInput(attrs={'disabled': True})
+#         }
 class IssueProjectForm(forms.ModelForm):
     class Meta:
         model = Issue
@@ -46,5 +59,8 @@ class IssueProjectForm(forms.ModelForm):
             'summary': 'Краткое описание',
             'description': 'Полное описание',
             'status': 'Статус',
-            'type': 'Тип'
+            'type': 'Тип',
         }
+        # widgets = {
+        #     'project': forms.TextInput(attrs={'disabled': True})
+        # }
